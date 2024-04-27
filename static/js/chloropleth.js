@@ -36,7 +36,7 @@ function drawChloropleth(geodata, propertyData) {
         .data(geodata.features)
         .enter().append("path")
         .style("fill", d => colorScale(d.properties.average_price))
-        .style("fill-opacity", 0.5)
+        .style("fill-opacity", 0.65)
         .attr("d", d3.geoPath().projection(getD3Projection(map)));
 
     // Define function to update the boroughs position
@@ -49,11 +49,11 @@ function drawChloropleth(geodata, propertyData) {
         .data(propertyData)
         .enter().append("circle")
         .attr("class", "property")
-        .attr("r", 0.5)
+        .attr("r", 0.25)
         .attr("cx", function(d) { return map.latLngToLayerPoint(new L.LatLng(d.latitude, d.longitude)).x })
         .attr("cy", function(d) { return map.latLngToLayerPoint(new L.LatLng(d.latitude, d.longitude)).y })
-        .style("fill", "red")
-        .style("fill-opacity", 0.5);
+        .style("fill", "pink")
+        .style("fill-opacity", 0.3);
 
     // Update property circles position on zoom
     function updatePropertyCircles() {
@@ -73,7 +73,7 @@ function drawChloropleth(geodata, propertyData) {
     }
 
     // Create a legend for the color scale
-    const legendWidth = 200, legendHeight = 10, legendMargin = 260;
+    const legendWidth = 200, legendHeight = 10, legendMargin = 265;
     const legendSvg = svg.append("g")
         .attr("class", "legend")
         .attr("transform", `translate(${legendMargin},${legendMargin})`);
@@ -89,7 +89,7 @@ function drawChloropleth(geodata, propertyData) {
         .attr("width", legendColorWidth)
         .attr("height", legendHeight)
         .style("fill", colorScale(threshold))
-        .style("fill-opacity", 0.5); // Translucent color
+        .style("fill-opacity", 0.65); // Translucent color
 
     // Correcting the y position to be just below the color rectangles
     legendSvg.append("text")
