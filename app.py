@@ -8,7 +8,7 @@ app = Flask(__name__)
 airbnb_data = pd.read_csv('Airbnb_Open_Data_clean.csv', dtype={'latitude': float, 'longitude': float, 'price': float})
 
 # Calculate average price per borough
-average_prices = airbnb_data.groupby('borough')['price'].mean().reset_index()
+average_prices = airbnb_data.groupby('neighbourhood_group')['price'].mean().reset_index()
 
 # Load GeoJSON data
 with open('new-york-city-boroughs.geojson', 'r') as f:
@@ -17,7 +17,7 @@ with open('new-york-city-boroughs.geojson', 'r') as f:
 # Integrate average price data with GeoJSON
 for feature in geojson_data['features']:
     borough_name = feature['properties']['name']
-    match = average_prices[average_prices['borough'] == borough_name]
+    match = average_prices[average_prices['neighbourhood_group'] == borough_name]
     if not match.empty:
         feature['properties']['average_price'] = match['price'].values[0]
     else:
